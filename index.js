@@ -14,13 +14,11 @@ class MyScene extends Scene {
 
     update() {
         super.update();
-        const w = this.game.width;
-        const h = this.game.height;
-        const ball = this.sprBall;
-
-        ball.x++;
-        ball.y = (w / 2) + Math.sin(ball.x * Math.PI / 50) * 20;
-        if (ball.x > w) ball.x = - ball.w;
+        this.sprBall.x++;
+        const wave = Math.sin(this.sprBall.x * Math.PI / 180 * 2) * 30;
+        this.sprBall.y = (this.game.height / 2) - (this.sprBall.h / 2)  + wave;
+        if (this.sprBall.x > this.game.width) this.sprBall.x = -this.sprBall.w;
+        this.sprBall.rotation += 5;
     }
 
     draw(ctx) {
@@ -31,18 +29,22 @@ class MyScene extends Scene {
 }
 
 class MyGame extends Game {
+
     constructor() {
         super(256, 224, { useScanlines: false, pixelRatio: 4 / 3 });
-        
     }
 
     loadAssets() {
+        //
+        // Preload Textures, Audio, Etc
+        //
         this.addTexture('./assets/ball32x32.png', 'ball32x32');
     }
 
     init() {
-        this.addScene(new MyScene(this));            
+        this.addScene(new MyScene(this));
     }
+
 }
 
 const game = new MyGame();
